@@ -1,0 +1,17 @@
+import jenkins.model.*
+import hudson.model.*
+
+def queue = Jenkins.instance.queue
+def numberOfDays = 10
+def tenDaysInMillis = numberOfDays * 24 * 60 * 60 * 1000L
+def currentTime = System.currentTimeMillis()
+
+queue.items.each { queueItem ->
+    def timeInQueue = currentTime - queueItem.inQueueSince
+    if (timeInQueue >= tenDaysInMillis) {
+      println "Build in queue for ${numberOfDays} days or more: ${queueItem.task.name}, in queue since: ${new Date(queueItem.inQueueSince)}"
+    }
+}
+
+// Explicitly return null to avoid displaying the Result at the end of the output
+return null
