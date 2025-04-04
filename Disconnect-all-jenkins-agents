@@ -1,0 +1,10 @@
+// Get a list of all nodes (agents) in Jenkins
+Jenkins.instance.nodes.each { node ->
+    // Check if the node is not the master node
+    if (node.name != "master") {
+        // Disconnect the agent
+        node.toComputer().disconnect(new hudson.slaves.OfflineCause.ByCLI("Disconnected via script"))
+
+        println "Agent '${node.displayName}' has been disconnected and disabled."
+    }
+}
